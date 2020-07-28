@@ -38,6 +38,12 @@ module OmniAuth
         raise ::Timeout::Error
       end
 
+      def request_phase
+        _authorize_params = {:redirect_uri => callback_url}.merge(authorize_params)
+        _authorize_params.merge!({ :prompt => "consent", :bot_prompt => 'aggressive' })
+        redirect client.auth_code.authorize_url(_authorize_params)
+      end
+
     end
   end
 end
